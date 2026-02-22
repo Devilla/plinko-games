@@ -34,7 +34,7 @@ model User {
   provablyFairStates ProvablyFairState[]
   bets               Bet[]
 
-  @@map("users")
+  @@map("plinkoo_users")
 }
 
 model ProvablyFairState {
