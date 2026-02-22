@@ -1,7 +1,7 @@
 import { createServer } from './server';
 import db from '@repo/db';
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 const app = createServer();
 
 const server = app.listen(port);
