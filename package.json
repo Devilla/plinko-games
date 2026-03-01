@@ -10,7 +10,9 @@
     "typecheck": "turbo run typecheck",
     "prepare": "husky install",
     "db:generate": "cd packages/db && npx prisma generate && cd ../..",
-    "db:migrate": "cd packages/db && npx prisma migrate dev && cd ../.."
+    "db:migrate": "cd packages/db && npx prisma migrate dev && cd ../..",
+    "contracts:build": "cd contracts && forge build",
+    "contracts:test": "cd contracts && forge test"
   },
   "devDependencies": {
     "husky": "^8.0.0",
