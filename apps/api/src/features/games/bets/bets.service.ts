@@ -1,4 +1,5 @@
-import { BetData, PaginatedBetData } from '@repo/common/types';
+import type { BetData } from '@repo/common/types';
+import { PaginatedBetData } from '@repo/common/types';
 import db from '@repo/db';
 import { NotFoundError } from '../../../errors';
 
@@ -40,7 +41,7 @@ export const getTopBets = async () => {
 
 export const getBetById = async (
   betId: string,
-  isMyBet: boolean = false
+  isMyBet = false
 ): Promise<BetData | null> => {
   const bet = await db.bet.findUnique({
     where: {

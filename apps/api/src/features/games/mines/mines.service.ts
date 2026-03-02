@@ -12,14 +12,15 @@ import {
   convertFloatsToGameEvents,
   calculateMines,
 } from '@repo/common/game-utils/mines/utils.js';
-import { userManager, UserInstance } from '../../user/user.service';
-import { payouts } from './mines.constant';
+import type { UserInstance } from '../../user/user.service';
+import { userManager } from '../../user/user.service';
 import {
   createBetTransaction,
   editBetAndUpdateBalance,
   minorToAmount,
 } from '../../../utils/bet.utils';
 import { BadRequestError } from '../../../errors';
+import { payouts } from './mines.constant';
 
 class MinesManager {
   private static instance: MinesManager | undefined;

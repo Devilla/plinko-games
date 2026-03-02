@@ -7,9 +7,9 @@ import type {
   ProvablyFairStateResponse,
 } from '@repo/common/types';
 import db from '@repo/db';
+import { use } from 'passport';
 import { BadRequestError } from '../../errors';
 import { userManager, getUserBets } from './user.service';
-import { use } from 'passport';
 
 export const getBalance = async (req: Request, res: Response) => {
   const userInstance = await userManager.getUser((req.user as User).id);

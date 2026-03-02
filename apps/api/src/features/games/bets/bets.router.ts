@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getBet, getBets } from './bets.controller';
 import { verifyMe } from '../../../middlewares/bet.middleware';
+import { getBet, getBets } from './bets.controller';
 
 const betsRouter: Router = Router();
 

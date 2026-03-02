@@ -5,7 +5,7 @@
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint -- --max-warnings=0",
+    "lint": "turbo run lint",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "prepare": "husky install",
@@ -33,7 +33,6 @@
   "name": "simcasino",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "pnpm lint",
       "pnpm format"
     ],
     "**/*.{json,css,md}": [

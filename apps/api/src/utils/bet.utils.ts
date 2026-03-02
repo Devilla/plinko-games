@@ -1,8 +1,10 @@
 import type { User, Game, Bet, PrismaClient } from '@prisma/client';
 import { Prisma } from '@prisma/client';
-import db, { PrismaTransactionalClient } from '@repo/db';
+import type { PrismaTransactionalClient } from '@repo/db';
+import db from '@repo/db';
 import { BadRequestError } from '../errors';
-import { userManager, UserInstance } from '../features/user/user.service';
+import type { UserInstance } from '../features/user/user.service';
+import { userManager } from '../features/user/user.service';
 
 export interface BetValidationOptions {
   betAmount: number;

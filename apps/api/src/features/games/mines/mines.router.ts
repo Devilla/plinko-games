@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../../../middlewares/auth.middleware';
+import { validateBet } from '../../../middlewares/bet.middleware';
+import { rateLimitBets } from '../../../middlewares/rateLimit.middleware';
 import {
   cashOut,
   getActiveGame,
   playRound,
   startGame,
 } from './mines.controller';
-import { validateBet } from '../../../middlewares/bet.middleware';
 import { validatePlayRoundRequest } from './mines.middleware';
-import { rateLimitBets } from '../../../middlewares/rateLimit.middleware';
 
 const minesRouter: Router = Router();
 

@@ -2,9 +2,9 @@ import {
   BetsSchema,
   validateBets,
 } from '@repo/common/game-utils/roulette/validations.js';
-import { NextFunction, Request, Response } from 'express';
-import { BadRequestError } from '../../../errors';
+import type { NextFunction, Request, Response } from 'express';
 import sum from 'lodash/sum';
+import { BadRequestError } from '../../../errors';
 
 export const validateRouletteBet = (
   req: Request,

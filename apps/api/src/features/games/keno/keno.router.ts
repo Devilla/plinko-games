@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../../../middlewares/auth.middleware';
-import { placeBet } from './keno.controller';
 import { validateBet } from '../../../middlewares/bet.middleware';
 import { rateLimitBets } from '../../../middlewares/rateLimit.middleware';
+import { placeBet } from './keno.controller';
 
 const kenoRouter: Router = Router();
 

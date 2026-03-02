@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../../../middlewares/auth.middleware';
-import { blackjackNext, getActiveGame, placeBet } from './blackjack.controller';
 import { rateLimitBets } from '../../../middlewares/rateLimit.middleware';
+import { blackjackNext, getActiveGame, placeBet } from './blackjack.controller';
 
 const blackjackRouter: Router = Router();
 

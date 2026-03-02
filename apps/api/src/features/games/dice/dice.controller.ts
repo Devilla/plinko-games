@@ -6,12 +6,12 @@ import type {
 import type { Request, Response } from 'express';
 import { ApiResponse } from '@repo/common/types';
 import { StatusCodes } from 'http-status-codes';
-import { getResult } from './dice.service';
 import { createBetTransaction, minorToAmount } from '../../../utils/bet.utils';
 import {
   formatGameResponse,
   validateGameInput,
 } from '../../../utils/game.utils';
+import { getResult } from './dice.service';
 
 interface DiceRequestBody {
   target: number;
