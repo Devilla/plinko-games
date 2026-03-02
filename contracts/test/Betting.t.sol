@@ -80,8 +80,56 @@ contract BettingTest is Test {
   }
 
   // ==================== DICE TESTS ====================
-  // TODO: Fix dice payout calculation for different targets
-  // Temporarily disabled due to arithmetic overflow in some edge cases
+
+  function test_diceAboveWin50() public {
+    // Find randomness that produces result > 5000 (win for "above 50" bet)
+    uint256 winRandomness;
+    bool found;
+    for (uint256 i = 0; i < 100000; i++) {
+      uint256 result = (uint256(keccak256(abi.encode(i, 'dice'))) % 10001);
+      if (result > 50 * 100) {
+        winRandomness = i;
+        found = true;
+        break;
+      }
+    }
+    require(found, 'failed to find win randomness');
+
+    vm.prank(alice);
+    bytes32 req = bet.placeBet{value: 1 ether}(
+      Betting.Game.Dice,
+      abi.encode(uint8(50), true)
+    ); // bet above 50
+    bet.fulfill(req, winRandomness);
+    // probability=50 -> multiplier=198 -> payout=1.98 ether
+    uint256 expected = (1 ether * 198) / 100;
+    assertEq(address(bet).balance, 100 ether + 1 ether - expected);
+  }
+
+  function test_diceBelowWin50() public {
+    // Find randomness that produces result < 5000 (win for "below 50" bet)
+    uint256 winRandomness;
+    bool found;
+    for (uint256 i = 0; i < 100000; i++) {
+      uint256 result = (uint256(keccak256(abi.encode(i, 'dice'))) % 10001);
+      if (result < 50 * 100) {
+        winRandomness = i;
+        found = true;
+        break;
+      }
+    }
+    require(found, 'failed to find win randomness');
+
+    vm.prank(alice);
+    bytes32 req = bet.placeBet{value: 1 ether}(
+      Betting.Game.Dice,
+      abi.encode(uint8(50), false)
+    ); // bet below 50
+    bet.fulfill(req, winRandomness);
+    // probability=50 -> multiplier=198 -> payout=1.98 ether
+    uint256 expected = (1 ether * 198) / 100;
+    assertEq(address(bet).balance, 100 ether + 1 ether - expected);
+  }
 
   // ==================== LIMBO TESTS ====================
 

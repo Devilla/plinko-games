@@ -32,19 +32,16 @@ library GameLibrary {
     bool isAbove,
     uint256 randomness
   ) internal pure returns (uint256 result, uint256 payoutMultiplier) {
-    // Use randomness to generate a float between 0 and 100
-    // Generate a number 0-10000 and divide by 100 to get 0.00-100.00
+    // Use randomness to generate a float between 0 and 100 (0..10000 basis points)
     result = (uint256(keccak256(abi.encode(randomness, 'dice'))) % 10001);
 
-    // Calculate payout multiplier
+    // Calculate payout multiplier (percent with two decimals, e.g. 198 = 1.98x)
     if (isAbove) {
-      // Win if result > target
-      if (result > target * 100) {
+      if (result > uint256(target) * 100) {
         payoutMultiplier = _calculateDiceMultiplier(target, true);
       }
     } else {
-      // Win if result < target
-      if (result < target * 100) {
+      if (result < uint256(target) * 100) {
         payoutMultiplier = _calculateDiceMultiplier(target, false);
       }
     }
@@ -53,12 +50,17 @@ library GameLibrary {
   /// @notice Internal function to calculate dice payout multiplier
   /// @dev Uses a simplified formula with fixed 2x multiplier for wins
   function _calculateDiceMultiplier(
-    uint8,
-    bool
+    uint8 target,
+    bool isAbove
   ) internal pure returns (uint256) {
-    // Simplified: just return 2x multiplier (like even money bet)
-    // Could be enhanced with target-based calculations
-    return 2;
+    // probability percentage (1..100)
+    uint256 probability = isAbove ? (100 - target) : target;
+    if (probability == 0) {
+      return 0;
+    }
+    // multiplier percent with two decimal precision: 9900/probability
+    // e.g. prob=50 -> 198 (1.98x)
+    return 9900 / probability;
   }
 
   // ==================== LIMBO ====================

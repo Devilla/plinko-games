@@ -103,7 +103,8 @@ contract Betting is VRFConsumerBase {
         isAbove,
         randomness
       );
-      payout = multiplier > 0 ? (bet.amount * multiplier) : 0;
+      // multiplier is percent*100, so divide by 100 to scale
+      payout = multiplier > 0 ? (bet.amount * multiplier) / 100 : 0;
 
       resultData = abi.encode(result, multiplier);
     } else if (bet.game == Game.Limbo) {
