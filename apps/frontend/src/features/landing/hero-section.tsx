@@ -62,9 +62,7 @@ export function HeroSection(): JSX.Element {
           </div>
           <div className="flex items-center gap-2 bg-card/30 backdrop-blur-sm px-4 py-2 rounded-full border-primary/20">
             <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-500" />
-            <span className="text-sm text-muted-foreground">
-              Stake-like UI
-            </span>
+            <span className="text-sm text-muted-foreground">Stake-like UI</span>
           </div>
           {/* <div className="flex items-center gap-2 bg-card/30 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">
             <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-500" />
