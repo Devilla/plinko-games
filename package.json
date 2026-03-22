@@ -5,29 +5,34 @@
     "clean": "turbo run clean",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint -- --max-warnings=0",
+    "lint": "turbo run lint",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "prepare": "husky install",
     "db:generate": "cd packages/db && npx prisma generate && cd ../..",
     "db:migrate": "cd packages/db && npx prisma migrate dev && cd ../..",
     "contracts:build": "cd contracts && forge build",
-    "contracts:test": "cd contracts && forge test"
+    "contracts:test": "cd contracts && forge test",
+    "contracts:test:hardhat": "pnpm exec hardhat test"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.3",
+    "hardhat": "^3.1.10",
     "husky": "^8.0.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "turbo": "^2.1.0"
+    "ts-node": "^10.9.2",
+    "turbo": "^2.1.0",
+    "typescript": "^5.3.3"
   },
   "packageManager": "pnpm@9.9.0",
+  "type": "module",
   "engines": {
     "node": ">=18"
   },
   "name": "simcasino",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "pnpm lint",
       "pnpm format"
     ],
     "**/*.{json,css,md}": [

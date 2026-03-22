@@ -8,9 +8,9 @@ import type {
   MinesHiddenState,
   MinesPlayRoundResponse,
 } from '@repo/common/game-utils/mines/types.js';
-import { minesManager } from './mines.service';
 import { BadRequestError, NotFoundError } from '../../../errors';
 import { minorToAmount } from '../../../utils/bet.utils';
+import { minesManager } from './mines.service';
 
 export const startGame = async (
   req: Request,

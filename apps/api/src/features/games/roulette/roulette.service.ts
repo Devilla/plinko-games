@@ -5,7 +5,8 @@ import {
   RouletteBetTypes,
 } from '@repo/common/game-utils/roulette/index.js';
 import { sum } from 'lodash';
-import { userManager, UserInstance } from '../../user/user.service';
+import type { UserInstance } from '../../user/user.service';
+import { userManager } from '../../user/user.service';
 import { isNumberInRange } from '../../../utils/numbers';
 
 const spinWheel = async (userInstance: UserInstance) => {

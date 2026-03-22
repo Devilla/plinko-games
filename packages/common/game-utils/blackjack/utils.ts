@@ -12,7 +12,9 @@ const convertFloatsToGameEvents = (floats: number[] | undefined) => {
   if (!floats || floats.length === 0) {
     return [];
   }
-  return floats.map(float => Math.floor(float * 52));
+  return floats.map(float => {
+    Math.floor(float * 52);
+  });
 };
 
 export const calculateHandValue = (cards: CardDeck[]) => {

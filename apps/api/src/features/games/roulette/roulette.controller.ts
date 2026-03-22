@@ -5,13 +5,13 @@ import type {
 } from '@repo/common/game-utils/roulette/index.js';
 import { StatusCodes } from 'http-status-codes';
 import { ApiResponse } from '@repo/common/types';
-import { calculatePayout, spinWheel } from './roulette.service';
 import {
   createBetTransaction,
   minorToAmount,
   amountToMinor,
 } from '../../../utils/bet.utils';
 import { formatGameResponse } from '../../../utils/game.utils';
+import { calculatePayout, spinWheel } from './roulette.service';
 
 export const placeBetAndSpin = async (
   request: Request,

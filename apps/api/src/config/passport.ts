@@ -6,14 +6,15 @@ import db from '@repo/db';
 import type { User } from '@prisma/client';
 
 const hasGoogleOAuthConfig =
-  !!process.env.GOOGLE_CLIENT_ID && !!process.env.GOOGLE_CLIENT_SECRET;
+  Boolean(process.env.GOOGLE_CLIENT_ID) &&
+  Boolean(process.env.GOOGLE_CLIENT_SECRET);
 
 if (hasGoogleOAuthConfig) {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        clientID: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         callbackURL:
           process.env.GOOGLE_CALLBACK_URL ||
           `${process.env.API_BASE_URL || 'http://localhost:5001'}/api/v1/auth/google/callback`,

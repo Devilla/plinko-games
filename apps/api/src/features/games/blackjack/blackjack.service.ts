@@ -14,9 +14,9 @@ import type {
   BlackjackGameState,
   BlackjackPlayRoundResponse,
 } from '@repo/common/game-utils/blackjack/types.js';
+import type { InputJsonObject } from '@prisma/client/runtime/library';
 import type { UserInstance } from '../../user/user.service';
 import { userManager } from '../../user/user.service';
-import { InputJsonObject } from '@prisma/client/runtime/library';
 
 interface GameCreationParams {
   userId: string;

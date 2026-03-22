@@ -3,9 +3,9 @@ import {
   validateBet,
   validateGameConstraints,
 } from '../../../middlewares/bet.middleware';
-import { placeBet } from './dice.controller';
 import { isAuthenticated } from '../../../middlewares/auth.middleware';
 import { rateLimitBets } from '../../../middlewares/rateLimit.middleware';
+import { placeBet } from './dice.controller';
 
 const diceRouter: Router = Router();
 

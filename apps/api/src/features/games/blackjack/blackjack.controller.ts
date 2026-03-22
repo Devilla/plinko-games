@@ -12,8 +12,8 @@ import type {
 } from '@repo/common/game-utils/blackjack/types.js';
 import db from '@repo/db';
 import { userManager } from '../../user/user.service';
-import { blackjackManager } from './blackjack.service';
 import { NotFoundError } from '../../../errors';
+import { blackjackManager } from './blackjack.service';
 
 export const placeBet = async (
   req: Request,

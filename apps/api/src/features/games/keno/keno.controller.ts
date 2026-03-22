@@ -4,9 +4,9 @@ import { KenoRequestSchema } from '@repo/common/game-utils/keno/types.js';
 import { StatusCodes } from 'http-status-codes';
 import { ApiResponse } from '@repo/common/types';
 import { BadRequestError } from '../../../errors';
-import { getResult } from './keno.service';
 import { createBetTransaction, minorToAmount } from '../../../utils/bet.utils';
 import { formatGameResponse } from '../../../utils/game.utils';
+import { getResult } from './keno.service';
 
 export const placeBet = async (
   req: Request,

@@ -1,8 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
-import { UserInstance, userManager } from '../../user/user.service';
-import { User } from '@prisma/client';
-import { Mines, minesManager } from './mines.service';
+import type { User } from '@prisma/client';
+import type { UserInstance } from '../../user/user.service';
+import { userManager } from '../../user/user.service';
 import { BadRequestError } from '../../../errors';
+import type { Mines } from './mines.service';
+import { minesManager } from './mines.service';
 
 interface PlayRoundRequestBody {
   selectedTileIndex: number;

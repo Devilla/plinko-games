@@ -1,12 +1,9 @@
 import type { Game } from '@prisma/client';
-import {
-  BetTransactionResult,
-  minorToAmount,
-  validateAndCreateBet,
-} from '../utils/bet.utils';
 import { ApiResponse } from '@repo/common/types';
 import { StatusCodes } from 'http-status-codes';
 import type { Response } from 'express';
+import type { BetTransactionResult } from './bet.utils';
+import { minorToAmount, validateAndCreateBet } from './bet.utils';
 
 export interface GameResult {
   gameState: any;

@@ -1,5 +1,5 @@
-import { createServer } from './server';
 import db from '@repo/db';
+import { createServer } from './server';
 
 const port = process.env.PORT || 5001;
 const app = createServer();
