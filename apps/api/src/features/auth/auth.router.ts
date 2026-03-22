@@ -20,7 +20,7 @@ const router: Router = Router();
 // Google authentication routes
 router.get('/google', (req, res, next) => {
   try {
-    // Get redirect URL from query parameter or use default
+    // Get redirect URL from query parameter or use default possibly
     const redirectUrl =
       (req.query.redirect_to as string) || process.env.CLIENT_URL;
     const state = JSON.stringify({ redirect: redirectUrl });
