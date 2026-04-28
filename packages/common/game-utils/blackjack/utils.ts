@@ -8,12 +8,12 @@ import type {
   BlackjackGameState,
 } from './types';
 
-const convertFloatsToGameEvents = (floats: number[] | undefined) => {
+const convertFloatsToGameEvents = (floats: number[] | undefined): number[] => {
   if (!floats || floats.length === 0) {
     return [];
   }
   return floats.map(float => {
-    Math.floor(float * 52);
+    return Math.floor(float * 52);
   });
 };
 
