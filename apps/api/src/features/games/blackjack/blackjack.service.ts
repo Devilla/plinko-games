@@ -9,6 +9,7 @@ import {
   createInitialGameState,
   getSafeGameState,
 } from '@repo/common/game-utils/blackjack/utils.js';
+import { getGeneratedFloats } from '@repo/common/game-utils/provably-fair/utils.js';
 import type {
   BlackjackActions,
   BlackjackGameState,
@@ -54,9 +55,14 @@ class BlackjackManager {
   async createGame({ betAmount, userId }: GameCreationParams) {
     const userInstance = await userManager.getUser(userId);
     const gameEvents = this.generateGameEvents(userInstance);
+    const initialGameState = createInitialGameState(gameEvents);
 
-    const bet = await this.createBetTransaction(userInstance, betAmount);
-    const game = new BlackjackGame({ bet, gameEvents, isNew: true });
+    const bet = await this.createBetTransaction(
+      userInstance,
+      betAmount,
+      initialGameState
+    );
+    const game = new BlackjackGame({ bet, gameEvents, isNew: false });
 
     this.games.set(bet.userId, game);
     return game;
@@ -69,9 +75,25 @@ class BlackjackManager {
   }
 
   private async createGameFromBet(bet: Bet): Promise<BlackjackGame> {
-    const userInstance = await userManager.getUser(bet.userId);
-    const gameEvents = this.generateGameEvents(userInstance);
-    return new BlackjackGame({ bet, gameEvents, isNew: false });
+    const gameEvents = await this.generateGameEventsFromBet(bet);
+    const persistedGameState = this.getBlackjackGameState(bet.state);
+    const gameState = persistedGameState ?? createInitialGameState(gameEvents);
+
+    if (!persistedGameState) {
+      await db.bet.update({
+        where: { id: bet.id },
+        data: { state: gameState as unknown as InputJsonObject },
+      });
+    }
+
+    return new BlackjackGame({
+      bet: {
+        ...bet,
+        state: gameState as unknown as Bet['state'],
+      },
+      gameEvents,
+      isNew: false,
+    });
   }
 
   private generateGameEvents(userInstance: UserInstance): number[] {
@@ -79,9 +101,38 @@ class BlackjackManager {
     return convertFloatsToGameEvents(floats);
   }
 
+  private async generateGameEventsFromBet(bet: Bet): Promise<number[]> {
+    const provablyFairState = await db.provablyFairState.findUniqueOrThrow({
+      where: { id: bet.provablyFairStateId },
+      select: { clientSeed: true, serverSeed: true },
+    });
+    const floats = getGeneratedFloats({
+      count: 52,
+      seed: provablyFairState.serverSeed,
+      message: `${provablyFairState.clientSeed}:${bet.betNonce}`,
+    });
+    return convertFloatsToGameEvents(floats);
+  }
+
+  private getBlackjackGameState(
+    state: Bet['state']
+  ): BlackjackGameState | null {
+    if (!state || typeof state !== 'object' || Array.isArray(state)) {
+      return null;
+    }
+
+    const gameState = state as Partial<BlackjackGameState>;
+    if (!Array.isArray(gameState.player) || !gameState.dealer) {
+      return null;
+    }
+
+    return gameState as BlackjackGameState;
+  }
+
   private async createBetTransaction(
     userInstance: UserInstance,
-    betAmount: number
+    betAmount: number,
+    gameState: BlackjackGameState
   ): Promise<Bet> {
     return db.$transaction(async tx => {
       const bet = await tx.bet.create({
@@ -91,7 +142,7 @@ class BlackjackManager {
           betNonce: userInstance.getNonce(),
           game: 'blackjack',
           provablyFairStateId: userInstance.getProvablyFairStateId(),
-          state: { actions: [['deal']] },
+          state: gameState as unknown as InputJsonObject,
           userId: userInstance.getUser().id,
           payoutAmount: 0,
         },
