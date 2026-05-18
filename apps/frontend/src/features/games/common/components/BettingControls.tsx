@@ -1,4 +1,5 @@
 import { BadgeDollarSign } from 'lucide-react';
+import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -82,14 +83,21 @@ export function BettingControls({
 }: BettingControlsProps): JSX.Element {
   const queryClient = useQueryClient();
   const balance = queryClient.getQueryData<number>(['balance']);
+  const [isBetInputEmpty, setIsBetInputEmpty] = useState(
+    !betAmount || betAmount <= 0
+  );
   const isDisabled =
-    (betAmount ?? 0) > (balance ?? 0) || (betAmount ?? 0) <= 0 || isPending;
+    isBetInputEmpty ||
+    (betAmount ?? 0) > (balance ?? 0) ||
+    (betAmount ?? 0) <= 0 ||
+    isPending;
 
   return (
     <div className="w-full lg:w-1/4 bg-brand-weak flex flex-col gap-4 p-3 py-4">
       <BetAmountInput
         betAmount={betAmount}
         onBetAmountChange={onBetAmountChange}
+        onInputEmptyChange={setIsBetInputEmpty}
       />
       <ProfitDisplay profitOnWin={profitOnWin} />
       <BetButton
